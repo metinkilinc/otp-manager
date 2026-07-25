@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Save",
     "saving": "Saving...",
@@ -55,7 +55,7 @@
     "loginTitle": "OTP Manager Login",
     "loginSubtitle": "Centralized 2FA Admin Panel",
     "emailLabel": "Email Address",
-    "emailPlaceholder": "admin@yourcompany.com",
+    "emailPlaceholder": "example@malatya.bel.tr",
     "passwordLabel": "Password",
     "passwordPlaceholder": "••••••••",
     "loginBtn": "Sign In",
@@ -75,7 +75,7 @@
     "twoFaActivatedWelcome": "🔒 2FA activated! Welcome, {{name}}!",
     "verifyFailed": "Verification failed. Please try again.",
     "codeExpired": "Verification code is invalid or has expired.",
-    "municipalityAlt": "Your Organization",
+    "municipalityAlt": "Malatya Metropolitan Municipality",
     "tagline": "Securely log into your centralized TOTP 2FA verification service and admin panel.",
     "verification": "Verification",
     "titleCredentials": "Sign in to Admin Panel",
@@ -107,7 +107,7 @@
     "loginWithRecovery": "🔑 Sign In with Recovery Code",
     "backToNormalCode": "← Sign in with normal code",
     "backToCredentials": "← Go Back (Credentials)",
-    "copyright": "© 2026 OTP Manager"
+    "copyright": "© 2026 Malatya Metropolitan Municipality — IT Department"
   },
   "sidebar": {
     "catGeneral": "GENERAL",
@@ -122,8 +122,8 @@
     "searchMenu": "Search menu..."
   },
   "topNavbar": {
-    "title": "OTP MANAGER",
-    "subtitle": "CENTRAL OTP 2FA SERVICE",
+    "title": "MALATYA METROPOLITAN MUNICIPALITY",
+    "subtitle": "CENTRALIZED OTP 2FA SERVICE",
     "systemActive": "System Active",
     "notifications": "Notifications"
   },
@@ -353,7 +353,7 @@
     "slugLabel": "Application Code (Slug)",
     "slugHint": "(Automatically generated, used as appId in API requests)",
     "domainLabel": "Application Web Address (Domain)",
-    "domainPlaceholder": "E.g. hr.yourcompany.com",
+    "domainPlaceholder": "E.g. hr.malatya.bel.tr",
     "descLabel": "Application Description",
     "descPlaceholder": "Purpose of service and scope of integration...",
     "securityPoliciesTitle": "SECURITY AND INTEGRATION POLICIES",
@@ -523,6 +523,18 @@
     "twoFaDisabledSuccess": "2FA protection disabled",
     "twoFaDisableFailed": "Failed to disable 2FA",
     "recoveryCodesCopied": "Recovery codes copied!"
+  },
+  "integrationGuide": {
+    "quickIntegrationTitle": "Quick Integration Guide",
+    "cURL": "cURL",
+    "nodeJs": "Node.js",
+    "python": "Python",
+    "php": "PHP",
+    "dotNet": ".NET (C#)",
+    "java": "Java",
+    "go": "Go",
+    "step1Title": "Step 1 — Start 2FA Enrollment (Get QR Code)",
+    "step2Title": "Step 2 — Validate TOTP Code"
   },
   "sdkGuide": {
     "title": " OTP Manager SDK Libraries (6 Languages Supported)",

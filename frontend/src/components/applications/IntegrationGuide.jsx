@@ -83,6 +83,118 @@ curl_close($ch);
 echo $response;`,
       },
     ],
+    dotnet: [
+      {
+        title: t('integrationGuide.step1Title'),
+        code: `using var client = new HttpClient();
+client.DefaultRequestHeaders.Add("X-API-Key", "${apiKey}");
+
+var payload = new {
+    externalUserId = "usr_1001",
+    userEmail = "kullanici@kurum.gov.tr"
+};
+var json = JsonSerializer.Serialize(payload);
+var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+var response = await client.PostAsync("${baseUrl}/api/v1/enroll/start", content);
+var result = await response.Content.ReadAsStringAsync();
+Console.WriteLine(result);`,
+      },
+      {
+        title: t('integrationGuide.step2Title'),
+        code: `var validatePayload = new {
+    externalUserId = "usr_1001",
+    code = "123456"
+};
+var validateJson = JsonSerializer.Serialize(validatePayload);
+var validateContent = new StringContent(validateJson, Encoding.UTF8, "application/json");
+
+var validateResponse = await client.PostAsync("${baseUrl}/api/v1/validate", validateContent);
+var validateResult = await validateResponse.Content.ReadAsStringAsync();
+Console.WriteLine(validateResult);`,
+      },
+    ],
+    java: [
+      {
+        title: t('integrationGuide.step1Title'),
+        code: `import java.net.http.*;
+import java.net.URI;
+
+HttpClient client = HttpClient.newHttpClient();
+String body = """
+    {\"externalUserId\": \"usr_1001\", \"userEmail\": \"kullanici@kurum.gov.tr\"}
+    """;
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("${baseUrl}/api/v1/enroll/start"))
+    .header("Content-Type", "application/json")
+    .header("X-API-Key", "${apiKey}")
+    .POST(HttpRequest.BodyPublishers.ofString(body))
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());`,
+      },
+      {
+        title: t('integrationGuide.step2Title'),
+        code: `String validateBody = """
+    {\"externalUserId\": \"usr_1001\", \"code\": \"123456\"}
+    """;
+
+HttpRequest validateReq = HttpRequest.newBuilder()
+    .uri(URI.create("${baseUrl}/api/v1/validate"))
+    .header("Content-Type", "application/json")
+    .header("X-API-Key", "${apiKey}")
+    .POST(HttpRequest.BodyPublishers.ofString(validateBody))
+    .build();
+
+HttpResponse<String> validateRes = client.send(validateReq, HttpResponse.BodyHandlers.ofString());
+System.out.println(validateRes.body());`,
+      },
+    ],
+    go: [
+      {
+        title: t('integrationGuide.step1Title'),
+        code: `package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+func startEnrollment() {
+    payload, _ := json.Marshal(map[string]string{
+        "externalUserId": "usr_1001",
+        "userEmail":      "kullanici@kurum.gov.tr",
+    })
+    req, _ := http.NewRequest("POST", "${baseUrl}/api/v1/enroll/start", bytes.NewBuffer(payload))
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("X-API-Key", "${apiKey}")
+
+    resp, _ := http.DefaultClient.Do(req)
+    defer resp.Body.Close()
+    fmt.Println(resp.Status)
+}`,
+      },
+      {
+        title: t('integrationGuide.step2Title'),
+        code: `func validateOTP(code string) {
+    payload, _ := json.Marshal(map[string]string{
+        "externalUserId": "usr_1001",
+        "code":           code,
+    })
+    req, _ := http.NewRequest("POST", "${baseUrl}/api/v1/validate", bytes.NewBuffer(payload))
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("X-API-Key", "${apiKey}")
+
+    resp, _ := http.DefaultClient.Do(req)
+    defer resp.Body.Close()
+    fmt.Println(resp.Status)
+}`,
+      },
+    ],
   };
 
   const handleCopy = (code, idx) => {
@@ -103,12 +215,15 @@ echo $response;`,
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid #E2E8F0' }}>
+      <div style={{ display: 'flex', gap: '0.25rem', borderBottom: '1px solid #E2E8F0', flexWrap: 'wrap' }}>
         {[
           { id: 'curl', label: t('integrationGuide.cURL') },
           { id: 'node', label: t('integrationGuide.nodeJs') },
           { id: 'python', label: t('integrationGuide.python') },
           { id: 'php', label: t('integrationGuide.php') },
+          { id: 'dotnet', label: t('integrationGuide.dotNet') },
+          { id: 'java', label: t('integrationGuide.java') },
+          { id: 'go', label: t('integrationGuide.go') },
         ].map((lang) => (
           <button
             key={lang.id}

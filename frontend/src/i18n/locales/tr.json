@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Kaydet",
     "saving": "Kaydediliyor...",
@@ -55,7 +55,7 @@
     "loginTitle": "OTP Manager Giriş",
     "loginSubtitle": "Merkezi 2FA Yönetim Paneli",
     "emailLabel": "E-posta Adresi",
-    "emailPlaceholder": "admin@yourcompany.com",
+    "emailPlaceholder": "ornek@malatya.bel.tr",
     "passwordLabel": "Şifre",
     "passwordPlaceholder": "••••••••",
     "loginBtn": "Giriş Yap",
@@ -75,7 +75,7 @@
     "twoFaActivatedWelcome": "🔒 2FA aktifleştirildi! Hoş geldiniz, {{name}}!",
     "verifyFailed": "Doğrulama başarısız. Tekrar deneyin.",
     "codeExpired": "Doğrulama kodu uyuşmuyor veya süresi doldu.",
-    "municipalityAlt": "Your Organization",
+    "municipalityAlt": "Malatya Büyükşehir Belediyesi",
     "tagline": "Merkezi TOTP 2FA doğrulama servisinize ve uygulama yönetim paneline güvenle giriş yapın.",
     "verification": "Doğrulama",
     "titleCredentials": "Yönetim Paneline Giriş",
@@ -107,7 +107,7 @@
     "loginWithRecovery": "🔑 Kurtarma Kodu ile Giriş Yap",
     "backToNormalCode": "← Normal kod ile giriş",
     "backToCredentials": "← Geri Dön (Kimlik Bilgileri)",
-    "copyright": "© 2026 OTP Manager"
+    "copyright": "© 2026 Malatya Büyükşehir Belediyesi — Bilgi İşlem Dairesi Başkanlığı"
   },
   "sidebar": {
     "catGeneral": "GENEL",
@@ -122,8 +122,8 @@
     "searchMenu": "Menüde ara..."
   },
   "topNavbar": {
-    "title": "OTP MANAGER",
-    "subtitle": "CENTRAL OTP 2FA SERVICE",
+    "title": "MALATYA BÜYÜKŞEHİR BELEDİYESİ",
+    "subtitle": "MERKEZİ OTP 2FA SERVİSİ",
     "systemActive": "Sistem Aktif",
     "notifications": "Bildirimler"
   },
@@ -353,7 +353,7 @@
     "slugLabel": "Uygulama Kodu (Slug)",
     "slugHint": "(Otomatik üretilir, API isteklerinde appId olarak kullanılır)",
     "domainLabel": "Uygulama Web Adresi (Domain)",
-    "domainPlaceholder": "E.g. hr.yourcompany.com",
+    "domainPlaceholder": "Örn. ik.malatya.bel.tr",
     "descLabel": "Uygulama Açıklaması",
     "descPlaceholder": "Servisin amacı ve entegrasyon kapsamı...",
     "securityPoliciesTitle": "GÜVENLİK VE ENTEGRASYON POLİTİKALARI",
@@ -523,6 +523,18 @@
     "twoFaDisabledSuccess": "2FA koruması kapatıldı",
     "twoFaDisableFailed": "2FA kapatılamadı",
     "recoveryCodesCopied": "Kurtarma kodları kopyalandı!"
+  },
+  "integrationGuide": {
+    "quickIntegrationTitle": "Hızlı Entegrasyon Kılavuzu",
+    "cURL": "cURL",
+    "nodeJs": "Node.js",
+    "python": "Python",
+    "php": "PHP",
+    "dotNet": ".NET (C#)",
+    "java": "Java",
+    "go": "Go",
+    "step1Title": "Adım 1 — 2FA Kaydını Başlat (QR Kod Al)",
+    "step2Title": "Adım 2 — TOTP Kodunu Doğrula"
   },
   "sdkGuide": {
     "title": " OTP Manager Hazır SDK Kütüphaneleri (6 Dil Desteği)",
