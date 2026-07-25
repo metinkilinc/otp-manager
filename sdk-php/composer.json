@@ -1,0 +1,32 @@
+﻿{
+    "name": "otp-manager/php-sdk",
+    "description": "OTP Manager official PHP & Laravel SDK for 2FA TOTP integration",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "OTP Manager",
+            "email": "info@yourcompany.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4 || ^8.0",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "OtpManager\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "OtpManager\\Laravel\\OTPServiceProvider"
+            ],
+            "aliases": {
+                "OTP": "OtpManager\\Laravel\\OTPFacade"
+            }
+        }
+    }
+}

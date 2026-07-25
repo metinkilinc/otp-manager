@@ -1,0 +1,156 @@
+﻿generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Panel Kullanıcıları (Admin + Ekip) ───
+
+model AdminUser {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String    // bcrypt hash
+  name          String
+  role          Role      @default(USER)
+  isActive      Boolean   @default(true)
+  totpSecret     String?   // Panel kullanıcısının kendi 2FA secret'ı (AES şifreli)
+  totpEnabled    Boolean   @default(false)
+  recoveryCodes  String[]  @default([]) // bcrypt hash'lenmiş kurtarma kodları
+  loginAttempts  Int       @default(0)
+  lockedUntil   DateTime? // 5 başarısız girişte kilitleme süresi
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  appAccess     AppAccess[]
+  auditLogs     AuditLog[]
+  refreshTokens RefreshToken[]
+  createdApplications Application[] @relation("CreatedApplications")
+}
+
+enum Role {
+  SUPER_ADMIN
+  USER
+}
+
+// ─── Refresh Token Tablosu (Revocation ve Güvenli Token Yönetimi) ───
+
+model RefreshToken {
+  id          String    @id @default(uuid())
+  tokenHash   String    @unique
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([adminUserId])
+  @@index([tokenHash])
+}
+
+// ─── Uygulamalar ───
+
+model Application {
+  id            String    @id @default(uuid())
+  name          String    // "Öğrenci Bilgi Sistemi"
+  slug          String    @unique // "obs"
+  apiKey        String    @unique // "otp_app_xxxx" — otomatik üretilir
+  apiKeyHash    String?   @unique // SHA256(apiKey) güvenli doğrulama için
+  apiSecret     String    // HMAC imza doğrulama için — otomatik üretilir
+  domain        String?   // "obs.yourcompany.com"
+  description   String?
+  isActive      Boolean   @default(true)
+  force2FA      Boolean   @default(false)
+  allowedIps    String[]  @default([]) // IP Whitelist — boş ise tüm IP'lere izin ver
+  webhookUrl    String?   // Olay bildirim URL'i
+  webhookSecret String?   // Webhook imza doğrulama secret'ı
+  rateLimitMaxRequests Int @default(100)  // Uygulama başına maks istek (pencere başına)
+  rateLimitWindowMs    Int @default(60000) // Rate limit penceresi (ms)
+  createdById   String?
+  createdBy     AdminUser? @relation("CreatedApplications", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  enrollments   Enrollment[]
+  appAccess     AppAccess[]
+  auditLogs     AuditLog[]
+
+  @@index([createdById])
+}
+
+// ─── Ekip Kullanıcı <-> Uygulama Erişimi ───
+
+model AppAccess {
+  id              String      @id @default(uuid())
+  adminUser       AdminUser   @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  adminUserId     String
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId   String
+
+  @@unique([adminUserId, applicationId])
+}
+
+// ─── Son Kullanıcıların 2FA Kayıtları ───
+// Her uygulama + kullanıcı çifti için ayrı bir kayıt
+
+model Enrollment {
+  id              String      @id @default(uuid())
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId   String
+  externalUserId  String      // Uygulamadaki kullanıcı ID'si (string olarak)
+  externalEmail   String?     // Gösterim amaçlı
+  externalName    String?     // Gösterim amaçlı
+  totpSecret      String      // AES-256-GCM ile şifrelenmiş TOTP secret
+  isActive        Boolean     @default(false)
+  isVerified      Boolean     @default(false)
+  recoveryCodes   String[]    // bcrypt hash'lenmiş tek kullanımlık kodlar
+  failedAttempts  Int         @default(0)
+  lockedUntil     DateTime?   // Çok fazla hatalı denemeden sonra kilitle
+  lastUsedAt      DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([applicationId, externalUserId])
+  @@index([applicationId])
+  @@index([externalEmail])
+}
+
+// ─── İşlem Geçmişi ───
+
+model AuditLog {
+  id              String       @id @default(uuid())
+  action          AuditAction
+  application     Application? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  applicationId   String?
+  adminUser       AdminUser?   @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+  adminUserId     String?
+  externalUserId  String?
+  ipAddress       String?
+  userAgent       String?
+  metadata        Json?        // Ekstra detaylar
+  createdAt       DateTime     @default(now())
+
+  @@index([applicationId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+enum AuditAction {
+  ENROLL_START
+  ENROLL_VERIFY
+  TOTP_VERIFY_SUCCESS
+  TOTP_VERIFY_FAIL
+  TOTP_ENABLE
+  TOTP_DISABLE
+  TOTP_RESET
+  RECOVERY_USED
+  ACCOUNT_LOCKED
+  APP_CREATED
+  APP_UPDATED
+  APP_DELETED
+  ADMIN_LOGIN
+  ADMIN_CREATED
+  ADMIN_UPDATED
+}

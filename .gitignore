@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.production
+
+# Build outputs
+dist/
+build/
+*.d.ts.map
+*.js.map
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Prisma
+prisma/migrations/
+
+# Temporary files
+.tmp
+scan.cjs
+final_scan.cjs
+full_orig_*.txt

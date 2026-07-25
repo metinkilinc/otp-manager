@@ -1,0 +1,32 @@
+{
+  "name": "@otp-manager/node-sdk",
+  "version": "1.0.0",
+  "description": "OTP Manager resmi Node.js / TypeScript SDK — HMAC imzalama dahil tam 2FA entegrasyon istemcisi",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "otp",
+    "2fa",
+    "totp",
+    "hmac",
+    "otp-manager"
+  ],
+  "author": "OTP Manager",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "dependencies": {
+    "axios": "^1.18.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.9.3"
+  }
+}
