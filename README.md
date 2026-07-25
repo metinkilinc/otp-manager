@@ -42,7 +42,7 @@ Your App (ERP, LMS, CRM, etc.)
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/otp-manager.git
+git clone https://github.com/metinkilinc/otp-manager.git
 cd otp-manager
 ```
 
